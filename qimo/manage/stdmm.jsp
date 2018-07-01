@@ -1,4 +1,6 @@
-<html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <html>
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="css/main.css">
@@ -138,7 +140,7 @@
         <td><a href="#">修改</a></td>
         <td><a href="#">删除</a></td>
       </tr>
-    
+
     </table>
     <button class="button">上一页</button>
     <button class="button">下一页</button>
