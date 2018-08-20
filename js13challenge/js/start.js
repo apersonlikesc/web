@@ -79,6 +79,7 @@ var time = 2;
         time -=0.01;
       }else{
         time = 2;
+        score = 0;
         changecolor();
       }
 
