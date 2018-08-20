@@ -1,8 +1,9 @@
 window.blur();
 
-var issame = false;//signal the color of the word and background
+var issame = true;//signal the color of the word and background
 var luckcynumber1 = 0;
 var luckcynumber2 = 0;
+var luckcynumber3 = 0;
 // =============================================
 //  colors and words //you can also update them
 // =============================================
@@ -22,6 +23,7 @@ words[3] = 'blue';
 words[4] = 'purple';
 words[5] = 'pink';
 words[6] = 'grey';
+var level = 1;
 changecolor();//init color;
 
 // =============================================
@@ -42,30 +44,42 @@ kontra.init();
 // =============================================
 //  level max=3
 // =============================================
-  var level = 1;
-  if(level == 1){
-    background.color = 'black';
-  }else if(level = 2){
 
-  }else{
-
-  }
-
+var max = 0;
 var time = 2;
 // =============================================
 //  score max=200 then 0 level up
 // =============================================
-
-  var score = 0;
+var score = 0;
   document.onkeyup=function(e){
     if(kontra.keys.pressed('left') && !issame) {//judge the color
       changecolor();
       score +=10;
+      if(score > max){
+        max = score;
+      }
+      // if(score > 50){
+      //   level = 2;
+      //   background.color = colors[luckcynumber3];
+      // }else if(score <= 50 && score >=0){
+      //   level = 1;
+      //   background.color = 'black';
+      // }
       time = 2;
     }else if (kontra.keys.pressed('right') && issame) {//judge the color
       changecolor();
       score +=10;
       time = 2;
+      if(score > max){
+        max = score;
+      }
+      // if(score > 50){
+      //   level = 2;
+      //   background.color = colors[luckcynumber3];
+      // }else if(score <= 50 && score >=0){
+      //   level = 1;
+      //   background.color = 'black';
+      // }
     }else{
       score = 0;
     }
@@ -81,13 +95,20 @@ var time = 2;
         time = 2;
         score = 0;
         changecolor();
-      }
 
+      }
+      if(score > 50){
+        level = 2;
+        background.color = colors[luckcynumber3];
+      }else if(score <= 50 && score >=0){
+        level = 1;
+        background.color = 'black';
+      }
     },
     render:function(){
       background.render();
       drawText(words[luckcynumber2],15,colors[luckcynumber1]);
-      drawscore("score:"+score);
+      drawscore("score:"+score+"  max:"+max+"  level:"+level);
       drawtime("time:"+time);
     }
   });
@@ -99,12 +120,26 @@ var time = 2;
 // level 1 changecolor
 // =============================================
 function changecolor(){
-  luckcynumber1 = Math.floor(Math.random()*colors.length);
-  luckcynumber2 = Math.floor(Math.random()*words.length);
-  if (luckcynumber1 == luckcynumber2){ // judge the color of the word and the background
-    issame = true;
-  }else{
-    issame = false;
+  if(level == 1){
+    luckcynumber1 = Math.floor(Math.random()*colors.length);
+    luckcynumber2 = Math.floor(Math.random()*words.length);
+    if (luckcynumber1 == luckcynumber2){ // judge the color of the word and the background
+      issame = true;
+    }else{
+      issame = false;
+    }
+  }else if(level == 2){
+     luckcynumber1 = Math.floor(Math.random()*colors.length);
+     luckcynumber2 = Math.floor(Math.random()*words.length);
+     luckcynumber3 = Math.floor(Math.random()*colors.length);
+      if(luckcynumber3 == luckcynumber1){
+        luckcynumber3 = (luckcynumber3+1) % colors.length;
+      }
+      if (luckcynumber1 == luckcynumber2){ // judge the color of the word and the background
+        issame = true;
+      }else{
+        issame = false;
+      }
   }
 }
 
