@@ -13,5 +13,4 @@
 > 设计的一个页面
 ### js13challenge
 todo list:
-1. 开场介绍
 2. 音乐
