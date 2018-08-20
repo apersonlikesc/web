@@ -1,14 +1,22 @@
 # web
 
-##### qimo
+### qimo
 > 课程设计(算是一个数据库的交互吧,毕竟是管理端) [使用jsp技术]   ide:eclipse
 
-##### canvas_clock
+### canvas_clock
 > canvas的一个钟
 
-##### star_blink
+### star_blink
 > 图片加特效
 
-##### blog_design
+### blog_design
 > 设计的一个页面
+### js13challenge
+todo list:
 
+1. 怎么添加文字
+2. 怎么改变颜色
+3. 怎么判断颜色
+4. 怎么改变模式
+5. 开始画面绘制
+6. 怎么融入计时
