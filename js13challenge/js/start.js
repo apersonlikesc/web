@@ -1,20 +1,19 @@
 window.blur();
-
-var issame = true;//signal the color of the word and background
-var luckcynumber1 = 0;
-var luckcynumber2 = 0;
-var luckcynumber3 = 0;
+var issame = false;//signal the color of the word and background
+var luckcynumber1 = 0;//random number for color
+var luckcynumber2 = 0;//random number for words
+var luckcynumber3 = 0;//random number for background
 // =============================================
 //  colors and words //you can also update them
 // =============================================
 var colors = new Array();
 colors[0] = 'red';
-colors[1] = 'orange';
-colors[2] = 'yellow';
-colors[3] = 'blue';
-colors[4] = 'purple';
-colors[5] = 'pink';
-colors[6] = 'grey';
+colors[1] = '#FFCC00';
+colors[2] = '#F7F709';
+colors[3] = '#2B2BD5';
+colors[4] = '#9955AA';
+colors[5] = '#ff99ff';
+colors[6] = '#808080';
 var words = new Array();
 words[0] = 'red';
 words[1] = 'orange';
@@ -23,8 +22,12 @@ words[3] = 'blue';
 words[4] = 'purple';
 words[5] = 'pink';
 words[6] = 'grey';
+// =============================================
+//  if score>150 then  level up
+// =============================================
 var level = 1;
-changecolor();//init color;
+
+changecolor();//init random color;
 
 // =============================================
 // start function
@@ -41,45 +44,21 @@ kontra.init();
     width: kontra.canvas.width,
     height: kontra.canvas.height,
   });
-// =============================================
-//  level max=3
-// =============================================
 
-var max = 0;
-var time = 2;
-// =============================================
-//  score max=200 then 0 level up
-// =============================================
+
+var max = 0;//highscore
+var time = 2;//rest time to play
+
 var score = 0;
   document.onkeyup=function(e){
     if(kontra.keys.pressed('left') && !issame) {//judge the color
       changecolor();
       score +=10;
-      if(score > max){
-        max = score;
-      }
-      // if(score > 50){
-      //   level = 2;
-      //   background.color = colors[luckcynumber3];
-      // }else if(score <= 50 && score >=0){
-      //   level = 1;
-      //   background.color = 'black';
-      // }
       time = 2;
     }else if (kontra.keys.pressed('right') && issame) {//judge the color
       changecolor();
       score +=10;
       time = 2;
-      if(score > max){
-        max = score;
-      }
-      // if(score > 50){
-      //   level = 2;
-      //   background.color = colors[luckcynumber3];
-      // }else if(score <= 50 && score >=0){
-      //   level = 1;
-      //   background.color = 'black';
-      // }
     }else{
       score = 0;
     }
@@ -89,6 +68,9 @@ var score = 0;
 // =============================================
   var loop = kontra.gameLoop({
     update:function(){
+      if(score > max){
+        max = score;
+      }
       if(time>0){
         time -=0.01;
       }else{
@@ -97,10 +79,10 @@ var score = 0;
         changecolor();
 
       }
-      if(score > 50){
+      if(score > 150){
         level = 2;
         background.color = colors[luckcynumber3];
-      }else if(score <= 50 && score >=0){
+      }else if(score <= 150 && score >=0){
         level = 1;
         background.color = 'black';
       }
@@ -117,7 +99,7 @@ var score = 0;
 
 
 // =============================================
-// level 1 changecolor
+//  changecolor based on level
 // =============================================
 function changecolor(){
   if(level == 1){
@@ -142,22 +124,6 @@ function changecolor(){
       }
   }
 }
-
-// =============================================
-// level 2 changecolor
-// =============================================
-
-// function changecolor2(colors){
-//   var luckcynumber1 = Math.floor(Math.random()*colors.length);
-//   var luckcynumber2 = Math.floor(Math.random()*colors.length);
-//   if (luckcynumber1 == luckcynumber2){ // judge the color of the word and the background
-//     issame = true;
-//   }else{
-//     issame = false;
-//   }
-//   var wordcolor = colors[luckcynumber1];
-//   var bgcolor = colors[luckcynumber2];
-// }
 
 
 // =============================================
