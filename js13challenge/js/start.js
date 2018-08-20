@@ -1,8 +1,13 @@
 window.blur();
+var start = false;//press r to start
 var issame = false;//signal the color of the word and background
 var luckcynumber1 = 0;//random number for color
 var luckcynumber2 = 0;//random number for words
 var luckcynumber3 = 0;//random number for background
+// =============================================
+//  if score>150 then  level up
+// =============================================
+var level = 1;
 // =============================================
 //  colors and words //you can also update them
 // =============================================
@@ -22,10 +27,7 @@ words[3] = 'blue';
 words[4] = 'purple';
 words[5] = 'pink';
 words[6] = 'grey';
-// =============================================
-//  if score>150 then  level up
-// =============================================
-var level = 1;
+
 
 changecolor();//init random color;
 
@@ -44,25 +46,29 @@ kontra.init();
     width: kontra.canvas.width,
     height: kontra.canvas.height,
   });
+  var max = 0;//highscore
+  var time = 2;//rest time to play
+  var score = 0;
 
-
-var max = 0;//highscore
-var time = 2;//rest time to play
-
-var score = 0;
-  document.onkeyup=function(e){
-    if(kontra.keys.pressed('left') && !issame) {//judge the color
-      changecolor();
-      score +=10;
-      time = 2;
-    }else if (kontra.keys.pressed('right') && issame) {//judge the color
-      changecolor();
-      score +=10;
-      time = 2;
-    }else{
-      score = 0;
+  document.onkeyup = function(e){
+    if(start){
+      if(kontra.keys.pressed('left') && !issame){//judge the color
+        changecolor();
+        score +=10;
+        time = 2;
+      }else if (kontra.keys.pressed('right') && issame) {//judge the color
+        changecolor();
+        score +=10;
+        time = 2;
+      }else{
+        score = 0;
+      }
     }
+
   }
+  kontra.keys.bind(['R','r'],function(){
+    start = true;
+  });
 // =============================================
 //  gameLoop
 // =============================================
@@ -76,9 +82,10 @@ var score = 0;
       }else{
         time = 2;
         score = 0;
+        level = 1;
         changecolor();
-
       }
+
       if(score > 150){
         level = 2;
         background.color = colors[luckcynumber3];
@@ -86,12 +93,24 @@ var score = 0;
         level = 1;
         background.color = 'black';
       }
+
     },
     render:function(){
       background.render();
-      drawText(words[luckcynumber2],15,colors[luckcynumber1]);
-      drawscore("score:"+score+"  max:"+max+"  level:"+level);
-      drawtime("time:"+time);
+      if(start){
+        drawText(words[luckcynumber2],15,colors[luckcynumber1]);
+        drawscore("score:"+score+"  max:"+max+"  level:"+level,5,5,5);
+        drawscore("time:"+time,5,5,kontra.canvas.height-30);
+      }else{
+        drawscore("Judge the consistency of  ",5,20,50);
+        drawscore("word and its colors.right ",5,20,100);
+        drawscore("press right otherwies left.",5,20,150);
+        drawscore("if wrong or time up",5,20,200);
+        drawscore("then score = 0",5,20,250);
+        drawscore("be careful and go bravely!",5,20,300);
+        drawscore("Press R to start!!!",7,20,500);
+      }
+
     }
   });
   loop.start(); //start
@@ -159,8 +178,8 @@ function drawText(string,size,color) {
           }
     }
 }
-function drawscore(string,x,y){
-  var size = 5;
+function drawscore(string,size,a,b){
+  //var size = size;
   var needed = [];
   if (string) {
       string = string.toUpperCase();
@@ -170,11 +189,11 @@ function drawscore(string,x,y){
               needed.push(letter);
           }
         }
-      var currX =5;
+      var currX = a;
       kontra.context.fillStyle = 'white';
       for (i = 0; i < needed.length; i++) {
           letter = needed[i];
-          var currY = 5;
+          var currY = b;
           var addX = 0;
           for (var y = 0; y < letter.length; y++) {
               var row = letter[y];
@@ -190,38 +209,6 @@ function drawscore(string,x,y){
         }
   }
 }
-function drawtime(string){
-  var size = 5;
-  var needed = [];
-  if (string) {
-      string = string.toUpperCase();
-      for (var i = 0; i < string.length; i++) {
-          var letter = letters[string.charAt(i)];
-          if (letter) {
-              needed.push(letter);
-          }
-        }
-      var currX =5;
-      kontra.context.fillStyle = 'white';
-      for (i = 0; i < needed.length; i++) {
-          letter = needed[i];
-          var currY = kontra.canvas.height - 30;
-          var addX = 0;
-          for (var y = 0; y < letter.length; y++) {
-              var row = letter[y];
-              for (var x = 0; x < row.length; x++) {
-                  if (row[x]) {
-                      kontra.context.fillRect(currX + x * size , currY , size, size);
-                  }
-              }
-              addX = Math.max(addX, row.length * size);
-              currY += size;
-          }
-          currX += size + addX;
-        }
-  }
-}
-
 
 // =============================================
 // Pixel Font
@@ -499,5 +486,19 @@ var letters = {
         [, , ],
         [, , ],
         [,1, ]
+    ],
+    '!': [
+        [, 1, ],
+        [, 1, ],
+        [, 1, ],
+        [, , ],
+        [,1, ]
+    ],
+    '=': [
+        [, , ],
+        [1, 1, 1],
+        [, , ],
+        [1,1 ,1 ],
+        [,, ]
     ],
 };
