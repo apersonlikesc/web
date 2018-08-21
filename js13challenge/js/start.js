@@ -52,23 +52,30 @@ kontra.init();
 
   document.onkeyup = function(e){
     if(start){
+      kontra.keys.unbind(['R','r']);
       if(kontra.keys.pressed('left') && !issame){//judge the color
+        rightSound();
         changecolor();
         score +=10;
         time = 2;
       }else if (kontra.keys.pressed('right') && issame) {//judge the color
+        rightSound();
         changecolor();
         score +=10;
         time = 2;
       }else{
+        wrongSound();
         score = 0;
       }
     }
-
   }
+
   kontra.keys.bind(['R','r'],function(){
     start = true;
+    sequence1.stop();
+    bgSound();
   });
+
 // =============================================
 //  gameLoop
 // =============================================
@@ -93,7 +100,6 @@ kontra.init();
         level = 1;
         background.color = 'black';
       }
-
     },
     render:function(){
       background.render();
@@ -116,6 +122,9 @@ kontra.init();
   loop.start(); //start
 }
 
+if(start == false){
+  startSound();
+}
 
 // =============================================
 //  changecolor based on level
